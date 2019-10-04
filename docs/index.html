@@ -1,0 +1,742 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>cipherise-sdk</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">cipherise-sdk</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> cipherise-sdk</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#cipherise-typescript-sdk" id="cipherise-typescript-sdk" style="color: inherit; text-decoration: none;">
+					<h1>Cipherise TypeScript SDK</h1>
+				</a>
+				<p>This SDK is for interacting with a Cipherise server; it compiles to ES6-compliant JavaScript, and
+					uses ESNext features such as <code>async</code> and <code>await</code>. This means it can be used in a
+				sufficiently-compliant JavaScript environment, such as Node &gt;6.0.0, recent browsers, and more.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>Use NPM to install:
+				<code>npm install cipherise-typescript-sdk</code></p>
+				<p>Otherwise, clone the repository and build:
+				<code>npm run build</code></p>
+				<p>The dist folder will contain the package to import.</p>
+				<p>Note, your TypeScript project should target &#39;es6&#39;. Ie the following line should be in your tsconfig.json.
+				<code>&quot;target&quot;: &quot;es6&quot;,</code></p>
+				<a href="#introduction" id="introduction" style="color: inherit; text-decoration: none;">
+					<h2>Introduction</h2>
+				</a>
+				<p>The purpose of this SDK is to provide Cipherise Authentication and associated functionality
+				to your Service.</p>
+				<hr>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<p>Cipherise key concepts can be summarised into the following sections:</p>
+				<a href="#service-management" id="service-management" style="color: inherit; text-decoration: none;">
+					<h3>Service Management</h3>
+				</a>
+				<p>The main purpose of Cipherise is to protect a resource. In Cipherise terminology, that resource is
+					called a Service. The application that is then using the Cipherise SDK is a Service Provider.
+				Cipherise must know of this Service Provider to be able to offer any capability. </p>
+				<p>Service Provider management operations include:</p>
+				<ul>
+					<li><a href="#QueryCS">Querying a Cipherise server</a></li>
+					<li><a href="#NewService">Creating new services</a></li>
+					<li><a href="#RevokeService">Revoking services</a></li>
+				</ul>
+				<a href="#user-management" id="user-management" style="color: inherit; text-decoration: none;">
+					<h3>User Management</h3>
+				</a>
+				<p>In order to interact with Cipherise, a user must been enrolled to a Service Provider. This
+					interaction is the key point in which the trust relationship is established. Future authentications
+					rely on the trust established at enrolment time. For a service that is binding a secure profile to
+					their Cipherise enrolment, a secure environment must be considered. For example, adding Cipherise
+					to an existing profile in a site may require the user to be logged in. If Cipherise is being used
+					for physical access, it could require being present in the physical environment for enrolment
+					binding to be accepted. Alternatively, an SMS could also be sent from a profile to the owner&#39;s
+				device.</p>
+				<p>Some services need not require a personalised account, and it may be sufficient to offer the
+				instantaneous creation of an anonymous account, simply by scanning of a WaveCode.</p>
+				<ul>
+					<li><a href="#EnrolService">Enrolling a user to a service</a></li>
+					<li><a href="#RevokeUser">Revoking users from a service</a></li>
+				</ul>
+				<a href="#authentication" id="authentication" style="color: inherit; text-decoration: none;">
+					<h3>Authentication</h3>
+				</a>
+				<p>Once a user is enrolled to a Service Provider, they can authenticate themselves.
+					Cipherise Authentication is bi-directional, meaning that the Service Provider will verify the
+					user&#39;s device and the user&#39;s device will verify the Service Provider.
+					Authentication can be used in a variety of ways. It can be simple access control, physical or
+					digital but it can also be part of a workflow. Workflows could include financial
+				transaction approval, manager approval or multiple party approval for example.</p>
+				<p>There are two types of authentication, WaveAuth and PushAuth. A PushAuth is
+					targeted to a specific user, where WaveAuth is performed by displaying a WaveCode image that can be
+					scanned by a user. Once authenticated, the Service Provider will be informed of the user&#39;s
+				username.</p>
+				<ul>
+					<li><a href="#WaveAuth">WaveAuth</a></li>
+					<li><a href="#PushAuth">PushAuth</a></li>
+					<li><a href="#NonBlockAuthentication">Non blocking option</a></li>
+				</ul>
+				<a href="#advanced-features" id="advanced-features" style="color: inherit; text-decoration: none;">
+					<h3>Advanced Features</h3>
+				</a>
+				<p>Serialization enables sharing of sessions between separate environments; they can be
+					serialized and stored by one environment, and then retrieved and deserialized by another
+					environment. This is most useful for concurrent/cluster environments in which sessions can be
+				shared between cluster nodes using a central store, such as Redis.</p>
+				<ul>
+					<li><a href="#Serialization">Serialization/Deserialization</a></li>
+				</ul>
+				<p>Payload is a feature where a Service Provider can encrypt and send data to a user&#39;s device
+					for storage via an authentication or at enrolment, and then retrieved from user device when
+					required via an authentication. Each individual payload has a maximum size of 4k bytes.
+					Ideally, this would be used by a Service, such that any private or sensitive user data that the
+					server requires could be held at rest on the user&#39;s own device rather than held collectively at
+					the service&#39;s storage where the consequences of a hack are far further reaching.
+					Examples of where payload could be used include credit card payment details for a regularly used
+				service, address details or other personally identifying details.</p>
+				<ul>
+					<li><a href="#Payload">Payload</a></li>
+				</ul>
+				<hr>
+				<a href="#cipherise-functionality" id="cipherise-functionality" style="color: inherit; text-decoration: none;">
+					<h2>Cipherise Functionality</h2>
+				</a>
+				<ul>
+					<li><a href="#QueryCS">Querying a Cipherise server</a></li>
+					<li><a href="#NewService">Creating new services</a></li>
+					<li><a href="#RevokeService">Revoking services</a></li>
+					<li><a href="#EnrolService">Enrolling a user to a service</a></li>
+					<li><a href="#RevokeUser">Revoking users from a service</a></li>
+					<li><a href="#WaveAuth">WaveAuth</a></li>
+					<li><a href="#PushAuth">PushAuth</a></li>
+					<li><a href="#NonBlockAuthentication">Non blocking option</a></li>
+					<li><a href="#Serialization">Serialization/Deserialization</a></li>
+					<li><a href="#Payload">Payload</a></li>
+				</ul>
+				<a href="#a-namequerycsaquerying-a-cipherise-server" id="a-namequerycsaquerying-a-cipherise-server" style="color: inherit; text-decoration: none;">
+					<h3><a name="QueryCS"></a>Querying a Cipherise server</h3>
+				</a>
+				<p>A Cipherise server can be queried for information about itself and what it supports using
+				<code>Client.serverInformation</code>. See <a href="https://developer.cipherise.com/resources/docs/typescript/classes/client.html#serverinformation">here</a>.</p>
+				<p>This is demonstrated below:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-comment">// Retrieve information from the server and print it out.</span>
+  <span class="hljs-keyword">const</span> info = <span class="hljs-keyword">await</span> client.serverInformation();
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Server version: "</span>, info.serverVersion);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Build version: "</span>, info.buildVersion)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Minimum app version: "</span>, info.appMinVersion);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Maximum supported payload size: "</span>, info.maxPayloadSize);
+}
+
+example();
+</code></pre>
+				<a href="#a-namenewserviceacreating-new-services" id="a-namenewserviceacreating-new-services" style="color: inherit; text-decoration: none;">
+					<h3><a name="NewService"></a>Creating new services</h3>
+				</a>
+				<p>The first step to integrating your Service Provider with Cipherise is to create a Cipherise
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html">service</a>. This
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html">service</a> is the Cipherise
+					representation of your service, and is used by your Service Provider to communicate with the
+				Cipherise system and issue requests.</p>
+				<p>To achieve this, first create a <a href="https://developer.cipherise.com/resources/docs/typescript/classes/client.html">Client</a> to connect to a Cipherise server.
+				A Cipherise server can be created at <a href="https://developer.cipherise.com">developer.cipherise.com</a>.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(<span class="hljs-string">"https://your.cipherise.server.here"</span>);</code></pre>
+				<p>Next, use the <a href="https://developer.cipherise.com/resources/docs/typescript/classes/client.html">Client</a> to create a new
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html">service</a>. A
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html">service</a> is not stored anywhere by default; in order to retrieve the same
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html">service</a> again, use
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#serialize">Service.serialize</a>
+					to store somewhere and
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/client.html#deserializeserviceasync">Client.deserializeServiceAsync</a> to restore from
+				storage.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(<span class="hljs-string">"Your Service Here"</span>);</code></pre>
+				<p>or</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> serializedService = <span class="hljs-comment">/* load from database or filesystem */</span>;
+<span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.deserializeServiceAsync(serializedService);</code></pre>
+				<p>A complete example using the filesystem follows.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">'fs'</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> filename = serviceName + <span class="hljs-string">".service"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+
+  <span class="hljs-keyword">let</span> service;
+  <span class="hljs-keyword">if</span> (fs.existsSync(filename)) {
+    <span class="hljs-comment">// If the service has been saved to disk, load it.</span>
+    <span class="hljs-keyword">const</span> serializedService = fs.readFileSync(filename);
+    service = <span class="hljs-keyword">await</span> client.deserializeServiceAsync(serializedService);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// Otherwise, create the service and store it.</span>
+    service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+    fs.writeFileSync(filename, service.serialize());
+  }
+}
+
+example();
+</code></pre>
+				<a href="#a-namerevokeservicearevoking-services" id="a-namerevokeservicearevoking-services" style="color: inherit; text-decoration: none;">
+					<h3><a name="RevokeService"></a>Revoking services</h3>
+				</a>
+				<p>A service can revoke itself using <a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#revoke">Service.revoke</a>. This may be done
+					when, for example, a Cipherise integration is uninstalled. Revoking a service will disable it and
+				remove it from the list of services on users&#39; devices. It cannot be undone.</p>
+				<p>A complete example of service revocation follows:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+  <span class="hljs-keyword">await</span> service.revoke();
+  <span class="hljs-comment">// The service can no longer be used.</span>
+}
+
+example();
+</code></pre>
+				<a href="#a-nameenrolserviceaenrolling-a-user-to-a-service" id="a-nameenrolserviceaenrolling-a-user-to-a-service" style="color: inherit; text-decoration: none;">
+					<h3><a name="EnrolService"></a>Enrolling a user to a service</h3>
+				</a>
+				<p>The enrolment process enrols a user to a Cipherise service so that they can use Cipherise to
+				interact with the service. The enrolment process is multi-step:</p>
+				<p>1) An enrolment WaveCode is presented to the user
+					(<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#enroluser">Service.enrolUser</a>,
+				<a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#WaveCodeurl">Enrolment.WaveCodeUrl</a>).</p>
+				<p>2) The user scans the WaveCode, and the service retrieves the result by long-polling on
+					validation <a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#validate">Enrolment.validate</a>. The result is the URL from which
+				to identicon can be displayed.</p>
+				<p>3) The service presents the identicon returned from the validation step. </p>
+				<p>4) The user confirms that it matches the identicon presented on their device. The service presents
+					buttons that can be used to accept or deny the enrolment. See
+				<a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#confirm">Enrolment.confirm</a>.</p>
+				<p>Additionally, the SDK supports a short-polling workflow:
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#getstate">Enrolment.getState</a> can be short-polled before
+				<a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#validate">Enrolment.validate</a> is called. The values it can return are:</p>
+				<ul>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#initialised">EnrolmentState.Initialised</a>: The enrolment has been
+					started.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#scanned">EnrolmentState.Scanned</a>: The enrolment WaveCode has been
+					scanned.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#validated">EnrolmentState.Validated</a>: The service provider has
+					received information about the device.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#confirmed">EnrolmentState.Confirmed</a>: The service provider has
+					confirmed whether or not the enrolment has succeeded.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#failed">EnrolmentState.Failed</a>: The enrolment has failed.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/enrolmentstate.html#unknown">EnrolmentState.Unknown</a>: Unknown state. Should never occur.</li>
+				</ul>
+				<p>For example, short-polling code may check for <code>EnrolmentState.Scanned</code>, and then call
+					<code>enrolment.validate</code>. This will immediately return (as the result is available), and then
+				the user can accept or deny the enrolment as required.</p>
+				<p>A complete example of the long-polling workflow follows:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> readline <span class="hljs-keyword">from</span> <span class="hljs-string">"readline"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> userName = <span class="hljs-string">"Test User"</span>;
+
+<span class="hljs-keyword">const</span> rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+
+  <span class="hljs-comment">// (1) Start an enrolment and present the WaveCode to the user.</span>
+  <span class="hljs-keyword">const</span> enrolment = <span class="hljs-keyword">await</span> service.enrolUser(userName);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"WaveCode URL:"</span>, enrolment.WaveCodeUrl);
+  <span class="hljs-comment">// (2) Wait for the user to scan and retrieve the identicon.</span>
+  <span class="hljs-keyword">const</span> identiconUrl = <span class="hljs-keyword">await</span> enrolment.validate();
+  <span class="hljs-comment">// (3) Display the identicon.</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Identicon URL:"</span>, identiconUrl); <span class="hljs-comment">// (3)</span>
+
+  <span class="hljs-comment">// Ask the user whether they want to confirm the enrolment or not.</span>
+  rl.question(<span class="hljs-string">"Accept? (y/n): "</span>, <span class="hljs-keyword">async</span> (answer) =&gt; {
+    <span class="hljs-keyword">const</span> confirm = answer.toLowerCase().startsWith(<span class="hljs-string">"y"</span>);
+    <span class="hljs-comment">// (4) Confirm the enrolment as appropriate.</span>
+    <span class="hljs-keyword">await</span> enrolment.confirm(confirm);
+    rl.close();
+  });
+}
+
+example();
+</code></pre>
+				<a href="#a-namerevokeuserarevoking-users-from-a-service" id="a-namerevokeuserarevoking-users-from-a-service" style="color: inherit; text-decoration: none;">
+					<h3><a name="RevokeUser"></a>Revoking users from a service</h3>
+				</a>
+				<p>A service can revoke enrolled users using <a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#revokeuser">Service.revokeUser</a>.
+					This could be called for a number of reasons. For example, a user leaves an organisation and is no
+				longer authorised for access. To regain access, the user must re-enrol.</p>
+				<p>Additionally, the optional <code>devices</code> parameter to <code>revokeUser</code> can be used to revoke a subset of
+				the user&#39;s devices. A potential use for this parameter is to revoke a device that a user has lost.</p>
+				<p>A complete example of user revocation follows:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> userName = <span class="hljs-string">"Test User"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+
+  <span class="hljs-comment">// Automatically enrol the user.</span>
+  <span class="hljs-keyword">const</span> enrolment = <span class="hljs-keyword">await</span> service.enrolUser(userName);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Enrolment WaveCode URL:"</span>, enrolment.WaveCodeUrl);
+  <span class="hljs-keyword">await</span> enrolment.validate();
+  <span class="hljs-keyword">await</span> enrolment.confirm(<span class="hljs-literal">true</span>);
+
+  <span class="hljs-comment">// Revoke the user.</span>
+  <span class="hljs-keyword">await</span> service.revokeUser(userName);
+
+  <span class="hljs-comment">// Confirm that they are no longer enrolled.</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Enrolled?"</span>, <span class="hljs-keyword">await</span> service.userEnrolled(userName));
+}
+
+example();
+</code></pre>
+				<a href="#a-namewaveauthawave-authentication" id="a-namewaveauthawave-authentication" style="color: inherit; text-decoration: none;">
+					<h3><a name="WaveAuth"></a>Wave authentication</h3>
+				</a>
+				<p>WaveAuth is where the user &#39;waves&#39; their device over the presented coded image. It is
+					ideal to log in with and upon successful authentication, will provide the Service Provider with
+				the name of the enrolled application user.</p>
+				<p>The general flow consists of the following steps:</p>
+				<p>1) An authentication WaveCode is presented to the user. The WaveCode is an image, and its URL is
+					obtained by initialising the authentication process. Call
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#WaveAuth">Service.WaveAuth</a> and display the image from the
+					returned data, located at
+				<a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#wavecodeurl">WaveAuth.WaveCodeUrl</a>.</p>
+				<p>2) The service retrieves the authentication result by calling
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#authenticate">WaveAuth.authenticate</a>. Note that this
+					is a blocking call and will not return until a user has scanned the returned image and completed
+				the authentication challenge, OR until the authentication times out.</p>
+				<p>3) The user scans the QR code and completes the authentication challenge.</p>
+				<p>4) The service receives the <a href="https://developer.cipherise.com/resources/docs/typescript/classes/authenticationresult.html">authentication result</a>. It
+					contains the actual <a href="https://developer.cipherise.com/resources/docs/typescript/classes/authentication.html">result of the authentication</a>, the username and
+				an optional payload response (more in the Payload section).</p>
+				<p>A complete example of the WaveAuth flow is shown (with a preliminary enrolment):</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> userName = <span class="hljs-string">"Test User"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+
+  <span class="hljs-comment">// Automatically enrol the user.</span>
+  <span class="hljs-keyword">const</span> enrolment = <span class="hljs-keyword">await</span> service.enrolUser(userName);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Enrolment WaveCode URL:"</span>, enrolment.WaveCodeUrl);
+  <span class="hljs-keyword">await</span> enrolment.validate();
+  <span class="hljs-keyword">await</span> enrolment.confirm(<span class="hljs-literal">true</span>);
+
+  <span class="hljs-comment">// (1) Start and present WaveAuth.</span>
+  <span class="hljs-keyword">const</span> auth = <span class="hljs-keyword">await</span> service.WaveAuth(
+    <span class="hljs-string">"Description of the authentication, appears in the app"</span>,
+    <span class="hljs-string">"Secondary information, appears in the app"</span>,
+    cipherise.AuthenticationLevel.OneTiCK
+  );
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Authentication WaveCode URL:"</span>, auth.WaveCodeUrl);
+
+  <span class="hljs-comment">// (2) Retrieve authentication result.</span>
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> auth.authenticate();
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Authenticating username:"</span>, result.username);
+  <span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">"Did the authentication succeed?"</span>,
+    result.authenticated === cipherise.Authenticated.Success
+  );
+}
+
+example();
+</code></pre>
+				<a href="#a-namepushauthapushauth" id="a-namepushauthapushauth" style="color: inherit; text-decoration: none;">
+					<h3><a name="PushAuth"></a>PushAuth</h3>
+				</a>
+				<p>PushAuth is a Cipherise authentication that is sent to a particular user&#39;s device. This
+					can only be used when the Service wants to target a specific user and the username and device id
+					are known for that user. Ideally, this is suited for workflow related cases, such as authorising a
+					banking transaction (targeted user is the owner of the transferring account), or seeking permission
+				for a privileged activity (targeted user is the supervisor of the user seeking permission).</p>
+				<p>The general flow consists of the following steps:</p>
+				<p>1) Look up the username (the name the user was enrolled to Cipherise as) of the authenticating
+				user.</p>
+				<p>2) Get the device id for the user. This can be determined by calling
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#getuserdevices">Service.getUserDevices</a>. Note that there can be more than one
+					device registered to a user. In this situation, the Service will need to determine which one(s) to
+				send the authentication to.</p>
+				<p>3) Send an authentication to the user&#39;s device, by calling
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#pushauth">Service.PushAuth</a>. This will return a
+				<a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html">PushAuth</a></p>
+				<p>4) The service retrieves the authentication result by calling
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html#authenticate">PushAuth.authenticate</a>. Note that this call is
+				blocking, awaiting timeouts or the User to complete the authentication on their device.</p>
+				<p>5) The user responds to the authentication notification on their device and solves the
+				authentication challenge on their phone.</p>
+				<p>6) The <a href="https://developer.cipherise.com/resources/docs/typescript/classes/authentication.html">result of the authentication</a> contains the username, what the
+					user responded with, and an optional payload response (See more in the <a href="#Payload">Payload</a>
+				section).</p>
+				<p>A complete example of the long-polling PushAuth flow is shown (with a preliminary
+				enrolment):</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> userName = <span class="hljs-string">"Test User"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+
+  <span class="hljs-comment">// Automatically enrol the user.</span>
+  <span class="hljs-keyword">const</span> enrolment = <span class="hljs-keyword">await</span> service.enrolUser(userName);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Enrolment WaveCode URL:"</span>, enrolment.WaveCodeUrl);
+  <span class="hljs-keyword">await</span> enrolment.validate();
+  <span class="hljs-keyword">await</span> enrolment.confirm(<span class="hljs-literal">true</span>);
+
+  <span class="hljs-comment">// (1) Retrieve a device.</span>
+  <span class="hljs-keyword">const</span> devices = <span class="hljs-keyword">await</span> service.getUserDevices(userName);
+  <span class="hljs-comment">// Take the last device returned (the most recent device).</span>
+  <span class="hljs-keyword">const</span> device = devices[devices.length - <span class="hljs-number">1</span>];
+
+  <span class="hljs-comment">// (2) Send a PushAuth to the device.</span>
+  <span class="hljs-keyword">const</span> auth = <span class="hljs-keyword">await</span> service.PushAuth(
+    userName,
+    device,
+    <span class="hljs-string">"Description of the authentication, appears in the app"</span>,
+    <span class="hljs-string">"Secondary information, appears in the app"</span>,
+    <span class="hljs-string">"Notification message, appears in the push notification"</span>,
+    cipherise.AuthenticationLevel.OneTiCK
+  );
+
+  <span class="hljs-comment">// (3) Retrieve the result of the authentication.</span>
+  <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> auth.authenticate();
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Authenticating username:"</span>, result.username);
+  <span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">"Did the authentication succeed?"</span>,
+    result.authenticated === cipherise.Authenticated.Success
+  );
+}
+
+example();
+</code></pre>
+				<a href="#a-namenonblockauthenticationa-short-polling" id="a-namenonblockauthenticationa-short-polling" style="color: inherit; text-decoration: none;">
+					<h3><a name="NonBlockAuthentication"></a> Short-polling</h3>
+				</a>
+				<p>There is a non-blocking alternative workflow for <a href="#WaveAuth">WaveAuth</a> and
+					<a href="#PushAuth">PushAuth</a>. Prior to calling
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#authenticate">WaveAuth.authenticate</a> or
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html#authenticate">PushAuth.authenticate</a> which both block
+					awaiting the user, <a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#getstate">WaveAuth.getState</a> or
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html#getstate">PushAuth.getState</a>
+					can be called to immediately return the current state of the
+				authentication. The values it can return are:</p>
+				<ul>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#initialised">AuthenticationState.Initialised</a>: The authentication
+						has been started, but no user action has occurred. The authentication result should not yet be
+					requested.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#scanned">AuthenticationState.Scanned</a>: This state is only
+						applicable in WaveAuth. It is returned when a Cipherise application user has scanned the
+						displayed WaveCode. The authentication has not yet been completed, so the result should not
+					yet be requested.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#pendingappsolution">AuthenticationState.PendingAppSolution</a>: The
+						user still needs to solve the challenge issued by the Service Provider in the Cipherise
+					application. The authentication result should not yet be requested.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#done">AuthenticationState.Done</a>: The authentication has been
+					completed and the result is available. The authentication result should now be requested.</li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#notfound">AuthenticationState.NotFound</a>: The Cipherise Server
+						does not know about this authentication. This typically occurs because the authentication has
+						already been completed or the authentication has expired. There is no need to follow this up with
+					the call to the authentication result.</li>
+				</ul>
+				<p>As a workflow example, short-polling code for a WaveAuth may check for
+					<a href="https://developer.cipherise.com/resources/docs/typescript/enums/authenticationstate.html#done">AuthenticationState.Done</a>,
+					and then call <a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#authenticate">WaveAuth.authenticate</a>. This
+					will immediately return (as the result is available), and the service can then accept the results
+				of the authentication.</p>
+				<a href="#a-nameserializationaserializationdeserialization" id="a-nameserializationaserializationdeserialization" style="color: inherit; text-decoration: none;">
+					<h3><a name="Serialization"></a>Serialization/deserialization</h3>
+				</a>
+				<p>All classes with an extended lifetime (sessions, etc) support serialization and deserialization.
+					Serialization packs the state of the session into a byte buffer, which can then be stored and
+					transferred as appropriate. As this buffer consists of raw bytes, care must be taken in transport;
+				consider encoding as Base64 or hex as required.</p>
+				<p>These classes feature a <code>serialize</code> method, while the &quot;parent&quot; class (e.g. the parent for
+					<code>WaveAuth</code> is <code>Service</code>) features the counterpart deserialization method. A full list is
+				supplied below:</p>
+				<ul>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#serialize">Service.serialize</a> /
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/client.html#deserializeserviceasync">Client.deserializeServiceAsync</a></li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#serialize">Enrolment.serialize</a> /
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#deserializeenrolment">Service.deserializeEnrolment</a></li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html#serialize">PushAuth.serialize</a> /
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#deserializepushauth">Service.deserializePushAuth</a></li>
+					<li><a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#serialize">WaveAuth.serialize</a> /
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/service.html#deserializewaveauth">Service.deserializeWaveAuth</a></li>
+				</ul>
+				<p>For an example of how these methods may be used, please look at the example for
+				<a href="#creating-new-services">Creating new services</a>.</p>
+				<a href="#a-namepayloadapayload" id="a-namepayloadapayload" style="color: inherit; text-decoration: none;">
+					<h3><a name="Payload"></a>Payload</h3>
+				</a>
+				<p>Payload data can be supplied to the user&#39;s device during
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/enrolment.html#confirm">enrolment</a> and supplied and fetched during authentication, both
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/pushauth.html#authenticate">PushAuth</a> and
+					<a href="https://developer.cipherise.com/resources/docs/typescript/classes/waveauth.html#authenticate">WaveAuth</a>. Payload data is arbitrary and is
+				controlled by the Service Provider.</p>
+				<p>A complete example for enrolment follows:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cipherise <span class="hljs-keyword">from</span> <span class="hljs-string">"cipherise-sdk"</span>;
+
+<span class="hljs-keyword">const</span> cipheriseServer = <span class="hljs-string">"https://your.cipherise.server.here"</span>;
+<span class="hljs-keyword">const</span> serviceName = <span class="hljs-string">"Example Service"</span>;
+<span class="hljs-keyword">const</span> userName = <span class="hljs-string">"Test User"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> cipherise.Client(cipheriseServer);
+  <span class="hljs-keyword">const</span> service = <span class="hljs-keyword">await</span> client.createService(serviceName);
+
+  <span class="hljs-comment">// Automatically enrol the user.</span>
+  <span class="hljs-keyword">const</span> enrolment = <span class="hljs-keyword">await</span> service.enrolUser(userName);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Enrolment QR code URL:"</span>, enrolment.WaveCodeUrl);
+  <span class="hljs-keyword">await</span> enrolment.validate();
+  <span class="hljs-keyword">await</span> enrolment.confirm(<span class="hljs-literal">true</span>,
+    cipherise.PayloadRequestBuilder.build(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> p.withSet({
+      hello: <span class="hljs-string">"world"</span>,
+    }))
+  );
+}
+
+example();
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/authenticated.html" class="tsd-kind-icon">Authenticated</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/authenticationlevel.html" class="tsd-kind-icon">Authentication<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/authenticationstate.html" class="tsd-kind-icon">Authentication<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/enrolmentstate.html" class="tsd-kind-icon">Enrolment<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authentication.html" class="tsd-kind-icon">Authentication</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authenticationresult.html" class="tsd-kind-icon">Authentication<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/client.html" class="tsd-kind-icon">Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/device.html" class="tsd-kind-icon">Device</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/enrolment.html" class="tsd-kind-icon">Enrolment</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/enrolmentresult.html" class="tsd-kind-icon">Enrolment<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/payloaddatalengthexceedederror.html" class="tsd-kind-icon">Payload<wbr>Data<wbr>Length<wbr>Exceeded<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/payloadrequest.html" class="tsd-kind-icon">Payload<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/payloadrequestbuilder.html" class="tsd-kind-icon">Payload<wbr>Request<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/payloadresponse.html" class="tsd-kind-icon">Payload<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/prefixlogger.html" class="tsd-kind-icon">Prefix<wbr>Logger</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pushauth.html" class="tsd-kind-icon">Push<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/serverinformation.html" class="tsd-kind-icon">Server<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/service.html" class="tsd-kind-icon">Service</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sessionexpirederror.html" class="tsd-kind-icon">Session<wbr>Expired<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeouterror.html" class="tsd-kind-icon">Timeout<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/version.html" class="tsd-kind-icon">Version</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/waveauth.html" class="tsd-kind-icon">Wave<wbr>Auth</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ilogger.html" class="tsd-kind-icon">ILogger</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#logger" class="tsd-kind-icon">Logger</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loggercallback" class="tsd-kind-icon">Logger<wbr>Callback</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
