@@ -1,15 +1,44 @@
 {
   "name": "cipherise-sdk",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "A service provider SDK for Forticode Cipherise.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "lint": "tslint -c tslint.json 'lib/**/*.ts'",
-    "build": "tsc && npm run lint && typedoc --out docs --target ES6 --mode file --excludePrivate --excludeExternals lib && replace '^.*node_modules.*$' '' docs/*/*.html"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forticode/cipherise-typescript-sdk.git"
   },
-  "author": "Forticode Limited",
+  "keywords": [
+    "Cipherise",
+    "Forticode",
+    "authentication",
+    "authorisation",
+    "password",
+    "passwordless",
+    "multi",
+    "multifactor",
+    "mutli-factor",
+    "logon",
+    "login",
+    "saml",
+    "saml2",
+    "saml2.0",
+    "saml 2.0",
+    "oauth",
+    "oauth2",
+    "openid",
+    "OpenID Connect",
+    "onetick",
+    "bidirectional",
+    "bi-directional"
+  ],
+  "author": "Forticode",
   "license": "Apache-2.0",
+  "files": [
+    "dist/*.ts",
+    "dist/*.js",
+    "dist/*.map"
+  ],
   "dependencies": {
     "@types/msgpack5": "^3.4.1",
     "@types/node-fetch": "^2.1.1",
@@ -26,5 +55,10 @@
     "typedoc": "^0.15.0",
     "replace": "^1.1.1",
     "typescript": "^3.1.6"
+  },
+  "scripts": {
+    "build": "tsc && npm run lint",
+    "lint": "tslint -c tslint.json 'lib/**/*.ts'",
+    "docs": "typedoc --out docs --target ES6 --mode file --excludePrivate --excludeExternals lib"
   }
 }
