@@ -264,7 +264,7 @@ export class Service {
       `Parameters: authenticationMessage "${authenticationMessage}", notificationMessage: "${notificationMessage}", brandingMessage: "${brandingMessage}", authLevel: ${authLevel}`
     );
 
-    const authChallenge = crypto.randomBytes(8);
+    const authChallenge = crypto.randomBytes(16);
     const request = {
       authenticationChallenge: authChallenge.toString("hex"),
       authenticationLevel: authLevel,
@@ -334,7 +334,7 @@ export class Service {
       `Wave authenticating with authMessage "${authenticationMessage}", brandMessage: "${brandingMessage}", authLevel: ${authLevel}`
     );
 
-    const authChallenge = crypto.randomBytes(8);
+    const authChallenge = crypto.randomBytes(16);
     const request = {
       authenticationChallenge: authChallenge.toString("hex"),
       authenticationLevel: authLevel,

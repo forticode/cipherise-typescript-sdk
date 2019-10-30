@@ -1,7 +1,7 @@
 // Entities
 export { Client } from "./client";
 export { Device } from "./device";
-export { Enrolment } from "./enrolment";
+export { Enrolment, EnrolmentState } from "./enrolment";
 export { ServerInformation } from "./server-information";
 export { Service } from "./service";
 export { WaveAuth } from "./wave-authentication";

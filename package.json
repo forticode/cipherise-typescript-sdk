@@ -1,6 +1,6 @@
 {
   "name": "cipherise-sdk",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "description": "A service provider SDK for Forticode Cipherise.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -92,7 +92,7 @@ export class Enrolment {
    */
   public async getState(): Promise<EnrolmentState> {
     const data = await this.service.getUrl(this.statusUrl);
-    switch (data.WaveEnrolStatus as string) {
+    switch (data.QREnrolStatus as string) {
       case "initialised":
         return EnrolmentState.Initialised;
       case "scanned":

@@ -1,4 +1,5 @@
 # Cipherise TypeScript SDK
+## Version 6.3.0
 
 This SDK is for interacting with a Cipherise server; it compiles to ES6-compliant JavaScript, and 
 uses ESNext features such as `async` and `await`. This means it can be used in a 
