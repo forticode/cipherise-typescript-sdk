@@ -1,6 +1,6 @@
 {
   "name": "cipherise-sdk",
-  "version": "6.3.0",
+  "version": "6.3.1",
   "description": "A service provider SDK for Forticode Cipherise.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,6 +59,7 @@
   "scripts": {
     "build": "tsc && npm run lint",
     "lint": "tslint -c tslint.json 'lib/**/*.ts'",
-    "docs": "typedoc --out docs --target ES6 --mode file --excludePrivate --excludeExternals lib"
+    "docs": "typedoc --out docs --target ES6 --mode file --excludePrivate --excludeExternals lib",
+    "prepublishOnly": "npm install && npm run build"
   }
 }
