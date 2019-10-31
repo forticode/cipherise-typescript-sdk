@@ -60,6 +60,6 @@
     "build": "tsc && npm run lint",
     "lint": "tslint -c tslint.json 'lib/**/*.ts'",
     "docs": "typedoc --out docs --target ES6 --mode file --excludePrivate --excludeExternals lib",
-    "prepublishOnly": "npm install && npm run build"
+    "prepublishOnly": "npm install --unsafe-perm && npm run build"
   }
 }
