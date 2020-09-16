@@ -9,14 +9,6 @@ sufficiently-compliant JavaScript environment, such as Node >6.0.0, recent brows
 Use NPM to install:
     `npm i cipherise-sdk`
 
-Otherwise, clone the repository and build:
-    `npm run build`
-
-The dist folder will contain the package to import.
-
-Note, your TypeScript project should target 'es6'. Ie the following line should be in your tsconfig.json.
-    `"target": "es6",`
-
 ## Introduction
 The purpose of this SDK is to provide Cipherise Authentication and associated functionality 
 to your Service.
